@@ -34,7 +34,7 @@ namespace ShopParser.Services
         {
             var web = new HtmlWeb();
             var docRoot = web.Load(productLink).DocumentNode;
-            return docRoot.QuerySelector("#descr-text")
+            return docRoot.QuerySelector(".info-product")
                           .InnerText;
         }
         public string GetName(string productLink)

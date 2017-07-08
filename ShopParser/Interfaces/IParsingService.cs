@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShopParser.Interfaces
 {
-    interface IParsingService
+    public interface IParsingService
     {
         IEnumerable<string> GetProductLinks(string catalogLink);
         string GetImageLink(string productLink);
