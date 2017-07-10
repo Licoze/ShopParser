@@ -12,6 +12,11 @@ namespace ShopParser.Models
         public string ImageLink { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public IDictionary<DateTime, double> PriceHistory { get; set; }
+        public virtual IList<PriceHistory> PriceHistory { get; set; }
+
+        public Product()
+        {
+            PriceHistory=new List<PriceHistory>();
+        }
     }
 }

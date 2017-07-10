@@ -8,9 +8,10 @@ namespace ShopParser.Models
     //Можно было бы все это обернуть в репозиторий, а потом и в UoW но профит сомнителен, а пару сотен строк кода прибавится.
     public class ProductsContext:DbContext
     {
-        ProductsContext():base("ParserBase") {
+        public ProductsContext():base("ProductsDB") {
 
         }
         public DbSet<Product> Products { get; set; }
+        public DbSet<PriceHistory> PriceHistories { get; set; }
     }
 }

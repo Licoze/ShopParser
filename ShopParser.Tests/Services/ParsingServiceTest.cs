@@ -1,87 +1,64 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using NUnit;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using ShopParser.Services;
+using ShopParser.Infrastructure;
 using ShopParser.Interfaces;
+using ShopParser.Models;
+using ShopParser.Services;
+
 namespace ShopParser.Tests.Services
 {
     [TestFixture]
     class ParsingServiceTest
     {
-        private IParsingService _parsingService;
-        private IDictionary<string, List<string>> _checkSet;
+        private IParsingService _service;
+        private ProductsContext _db;
         [OneTimeSetUp]
         public void SetUp()
         {
-            _parsingService=new ParsingService();
-            _checkSet=new Dictionary<string, List<string>>();
-            _checkSet.Add("https://can.ua/cpu/c1476/",new List<string>()
-            {
-                "https://can.ua/intel-core-i7-6700k-bx80662i76700k/p56378/",
-                "https://can.ua/amd-fx-6350-fd6350frhkbox/p10821/"
-            });
-            _checkSet.Add("https://can.ua/wi-fi-adapters/c54366/", new List<string>()
-            {
-                "https://can.ua/asus-pce-ac88/p84618/",
-                "https://can.ua/asus-pce-ac68/p37756/"
-            });
-        }
-        [Test]
-        public void GetProductLinksTest()
-        {
-            foreach (var category in _checkSet)
-            {
-                foreach (var product in category.Value)
-                {
-                    var links = _parsingService.GetProductLinks(category.Key);
-                    Assert.AreEqual(links.Contains(product), true);
-                }
-            }
+            _db = new ProductsContext();
+            _service =new ParsingService(new CanUaLinkParser(), _db);
             
         }
         [Test]
-        public void GetImageLinkTest()
+        public async Task ParseNewTest()
         {
-            foreach (var category in _checkSet)
+            var result =await _service.ParseNewAsync("https://can.ua/cpu/c1476/");
+            Assert.GreaterOrEqual(result,0);
+        }
+
+        [Test]
+        public async Task RefreshTest()
+        {
+            var product = _db.Products.FirstOrDefault();
+            var prices = product?.PriceHistory;
+            prices.Add(new PriceHistory()
             {
-                foreach (var product in category.Value)
-                {
-                    var link = _parsingService.GetImageLink(product);
-                    var pattern = "^(http|https)://.+.jpg";
-                    var isMatch = Regex.Match(link, pattern).Success;
-                    Assert.IsTrue(isMatch);
-                }
-            }
+                Date = DateTime.Now,
+                Price = 0
+            });
+            await _db.SaveChangesAsync();
+            var result = await _service.RefreshAsync();
+            Assert.Greater(result,0);
         }
         [Test]
-        public void GetDescriptionTest()
+        public void GetByIdTest()
         {
-            foreach (var category in _checkSet)
-            {
-                foreach (var product in category.Value)
-                {
-                    var link = _parsingService.GetDescription(product);
-                    Assert.Greater(link.Length,0);
-                }
-            }
+            var expected = _db.Products.FirstOrDefault();
+            var actual = _service.GetById(expected.Id);
+            Assert.AreEqual(expected, actual);
         }
         [Test]
-        public void GetNameTest()
+        public void GetAllTest()
         {
-            foreach (var category in _checkSet)
-            {
-                foreach (var product in category.Value)
-                {
-                    var name = _parsingService.GetName(product);
-                    Assert.Greater(name.Length, 0);
-                }
-            }
+            var expected = _db.Products;
+            expected.Load();;
+            var actual = _service.GetAll();
+            CollectionAssert.AreEquivalent(expected,actual);
         }
     }
 }
