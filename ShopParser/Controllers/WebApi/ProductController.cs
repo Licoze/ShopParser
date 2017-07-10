@@ -46,20 +46,26 @@ namespace ShopParser.Controllers.WebApi
             }
             
         }
-
-        public async Task<IHttpActionResult> Parse(string link)
+        [HttpPost]
+        [Route("api/Product/Parse/")]
+        public async Task<IHttpActionResult> Parse([FromBody]ParseViewModel model)
         {
             try
             {
-                var result = await ParsingService.ParseNewAsync(link);
-                return Json(result);
+                if (ModelState.IsValid)
+                {
+                    var result = await ParsingService.ParseNewAsync(model.RequestString);
+                    return Json(result);
+                }
+                return BadRequest();
             }
             catch
             {
                 return InternalServerError();
             }
         }
-
+        [HttpGet]
+        [Route("api/Product/Refresh/")]
         public async Task<IHttpActionResult> Refresh()
         {
             try

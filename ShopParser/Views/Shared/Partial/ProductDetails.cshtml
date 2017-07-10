@@ -1,0 +1,30 @@
+﻿@model ShopParser.Models.Product
+<div class="row">
+    <div class="col-md-4">
+        <img class="img-responsive" src="@Model.ImageLink"/>
+    </div>
+    <div class="col-md-4">
+        <h3>@Model.Name</h3>
+        <p>@Model.Description</p>
+    </div>
+    <div class="col-md-4">
+        <h3>Price History</h3>
+        <table class="table table-condensed">
+            <thead>
+            <tr>
+                <th>Update Date</th>
+                <th>Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var price in Model.PriceHistory)
+            {
+                <tr>
+                    <td>@price.Date</td>
+                    <td>@price.Price</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

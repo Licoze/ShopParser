@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ShopParser.Models.Product>
+@{
+    double rowsCount = Math.Ceiling((double)Model.Count() / 3);
+}
+@for (int x = 1; x <= rowsCount; x++)
+{
+    var cells = Model.Skip((x - 1) * 3).Take(3);
+    <div class="row product-list">
+        @foreach (var cell in cells)
+        {
+            <div class="col-md-4">
+                <div class="item-wrap">
+                <img class="img-responsive" src="@cell.ImageLink"/>
+                    <a href="#!product/@cell.Id">@cell.Name</a>
+                </div>
+            </div>
+        }
+    </div>
+}

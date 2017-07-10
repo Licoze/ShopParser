@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+.item-wrap {
+    border: 2px solid gray;
+    padding: 15px;
+}
+.product-list {
+    padding-top: 20px;
+}
+.search {
+    margin: 25px;
+}

@@ -1,0 +1,22 @@
+﻿@model ShopParser.Models.ParseViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row search" ng-controller="searchForm">
+    <div class="col-lg-offset-4 col-lg-4">
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.RequestString, new {@class = "form-control", @placeholder = "Input catalog link from Can.ua.", @ng_model = "link"})
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="Parse(link)">Parse</button>
+                <button class="btn btn-success" ng-click="Refresh(link)">Refresh</button>
+            </span>     
+        </div>
+        <p><b> Example:https://can.ua/cpu/c1476/</b> </p>
+    </div>
+</div>
+
+<div class="container" id="product-list" ng-controller="productsController">
+    <ng-view></ng-view>
+</div>

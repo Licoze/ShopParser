@@ -6,7 +6,7 @@ using System.Web;
 
 namespace ShopParser.Models
 {
-    public class SearchViewModel
+    public class ParseViewModel
     {
         [Required]
         public string RequestString { get; set; }

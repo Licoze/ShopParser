@@ -30,7 +30,7 @@ namespace ShopParser.Infrastructure
         public string GetImageLink(string productLink)
         {
             var docRoot = _webInstance.Load(productLink).DocumentNode;
-            return docRoot.QuerySelector(".product-photo img")
+            return docRoot.QuerySelector(".main-image-link img")
                           .Attributes["src"]
                           .Value;
         }
