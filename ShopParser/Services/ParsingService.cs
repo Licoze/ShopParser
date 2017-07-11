@@ -69,8 +69,7 @@ namespace ShopParser.Services
 
         public IEnumerable<Product> GetAll()
         {
-            var products = _db.Products;
-            products.Load();
+            var products = _db.Products.Include(p=>p.PriceHistory);
             return products;
         }
 

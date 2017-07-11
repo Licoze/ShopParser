@@ -26,8 +26,8 @@ textarea {
     border: 2px solid gray;
     padding: 15px;
 }
-.product-list {
-    padding-top: 20px;
+#product-list {
+    padding: 20px 50px;
 }
 .search {
     margin: 25px;

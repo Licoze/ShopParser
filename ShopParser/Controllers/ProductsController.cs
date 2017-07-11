@@ -8,12 +8,12 @@ using ShopParser.Interfaces;
 
 namespace ShopParser.Controllers
 {
-    public class ProductController : Controller
+    public class ProductsController : Controller
     {
         // GET: Parser
         
         public IParsingService ParsingService;
-        public ProductController(IParsingService parsingService)
+        public ProductsController(IParsingService parsingService)
         {
             ParsingService = parsingService;
         }
@@ -21,25 +21,22 @@ namespace ShopParser.Controllers
         {
             return View();
         }
-        public ActionResult GetAll()
+        public ActionResult Products()
         {
             try
             {
-                var result = ParsingService.GetAll();
-                return PartialView("Partial/Products", result); 
+                return PartialView("Partial/Products"); 
             }
             catch
             {
                 return View("Error");
             }
         }
-        [Route("Product/{id}")]
-        public ActionResult GetById(int id)
+        public ActionResult ProductDetails()
         {
             try
             {
-                var result = ParsingService.GetById(id);
-                return PartialView("Partial/ProductDetails",result);
+                return PartialView("Partial/ProductDetails");
             }
             catch
             {

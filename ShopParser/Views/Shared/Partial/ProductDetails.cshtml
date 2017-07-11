@@ -1,11 +1,10 @@
-﻿@model ShopParser.Models.Product
-<div class="row">
+﻿<div class="row" ng-controller="detailsController" ng-model="product">
     <div class="col-md-4">
-        <img class="img-responsive" src="@Model.ImageLink"/>
+        <img class="img-responsive" src="{{product.ImageLink}}"/>
     </div>
     <div class="col-md-4">
-        <h3>@Model.Name</h3>
-        <p>@Model.Description</p>
+        <h3>{{product.Name}}</h3>
+        <p>{{product.Description}}</p>
     </div>
     <div class="col-md-4">
         <h3>Price History</h3>
@@ -17,13 +16,11 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var price in Model.PriceHistory)
-            {
-                <tr>
-                    <td>@price.Date</td>
-                    <td>@price.Price</td>
+                <tr ng-repeat="price in product.PriceHistory">
+                    <td>{{price.Date}}</td>
+                    <td>{{price.Price}}</td>
                 </tr>
-            }
+            
             </tbody>
         </table>
     </div>

@@ -12,14 +12,15 @@ using ShopParser.Models;
 
 namespace ShopParser.Controllers.WebApi
 {
-    public class ProductController : ApiController
+    [RoutePrefix("api/Products")]
+    public class ProductsController : ApiController
     {
         public IParsingService ParsingService;
-        public ProductController(IParsingService parsingService)
+        public ProductsController(IParsingService parsingService)
         {
             ParsingService = parsingService;
         }
-
+        [Route("")]
         public IHttpActionResult GetAll()
         {
             try
@@ -32,7 +33,8 @@ namespace ShopParser.Controllers.WebApi
                 return InternalServerError();
             }
         }
-
+        [Route("")]
+        [Route("{id:int}")]
         public IHttpActionResult GetById(int id)
         {
             try
@@ -47,7 +49,7 @@ namespace ShopParser.Controllers.WebApi
             
         }
         [HttpPost]
-        [Route("api/Product/Parse/")]
+        [Route("Parse")]
         public async Task<IHttpActionResult> Parse([FromBody]ParseViewModel model)
         {
             try
@@ -65,7 +67,7 @@ namespace ShopParser.Controllers.WebApi
             }
         }
         [HttpGet]
-        [Route("api/Product/Refresh/")]
+        [Route("Refresh")]
         public async Task<IHttpActionResult> Refresh()
         {
             try

@@ -1,6 +1,6 @@
 ﻿@model ShopParser.Models.ParseViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "AllProducts";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +16,6 @@
         <p><b> Example:https://can.ua/cpu/c1476/</b> </p>
     </div>
 </div>
-
-<div class="container" id="product-list" ng-controller="productsController">
-    <ng-view></ng-view>
+<hr/>
+<div class="container" id="product-list" ng-view>
 </div>
