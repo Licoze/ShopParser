@@ -14,15 +14,19 @@
         $routeProvider.otherwise({ redirectTo: "/" });
     });
     parserApp.controller("searchForm",
-        function($scope, $http) {
+        function($scope, $http,$location,$route) {
             $scope.Parse = function(link) {
                 var linkObj = { RequestString: link };
-                $http({ method: "POST", url: "../api/Product/Parse/", data: linkObj }).then(
-                    function() {
+                $http({ method: "POST", url: "../api/Products/Parse/", data: linkObj }).then(
+                    function () {
+                        $location.path("/");
+                        $route.reload();
                     });
             };
             $scope.Refresh = function(link) {
-                $http({ method: "GET", url: "../api/Product/Refresh/" }).then(function successCallback(response) {
+                $http({ method: "GET", url: "../api/Products/Refresh/" }).then(function () {
+                    $location.path("/");
+                    $route.reload();
                 });
             };
         });
